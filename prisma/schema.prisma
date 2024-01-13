@@ -1,0 +1,42 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Addresses {
+  id      String @id @default(uuid())
+  address String @db.VarChar(128)
+
+  createdAt DateTime @default(now())
+
+  // Associations
+  SentEmailReceivers SentEmailReceivers[]
+}
+
+model Emails {
+  id String @id @default(uuid())
+
+  subject String @db.VarChar(256)
+  body    String @db.LongText
+
+  createdAt DateTime @default(now())
+
+  // Associations
+  SentEmailReceivers SentEmailReceivers[]
+}
+
+model SentEmailReceivers {
+  id String @id @default(uuid())
+
+  // Associations
+  Address   Addresses @relation(fields: [addressId], references: [id])
+  addressId String
+
+  Email   Emails @relation(fields: [emailId], references: [id])
+  emailId String
+}

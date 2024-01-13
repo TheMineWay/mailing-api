@@ -1,0 +1,16 @@
+version: '3'
+name: mailing_api_dev
+services:
+  api:
+    container_name: mailing_api_dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file:
+      - .env
+    ports:
+      - '${PORT}:${PORT}'
+    volumes:
+      - ./src:/app/src
+    expose:
+      - '${PORT}'
