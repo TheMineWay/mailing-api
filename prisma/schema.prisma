@@ -8,6 +8,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model MailAgents {
+  id       String @id @default(uuid())
+  address  String @unique @db.VarChar(128)
+  password String @db.VarChar(128)
+  protocol String @db.VarChar(8)
+
+  createdAt DateTime @default(now())
+
+  // Associations
+  Emails Emails[]
+}
+
 model Addresses {
   id      String @id @default(uuid())
   address String @db.VarChar(128)
@@ -27,6 +39,9 @@ model Emails {
   createdAt DateTime @default(now())
 
   // Associations
+  MailAgent   MailAgents @relation(fields: [mailAgentId], references: [id])
+  mailAgentId String
+
   SentEmailReceivers SentEmailReceivers[]
 }
 
