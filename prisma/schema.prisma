@@ -9,14 +9,15 @@ datasource db {
 }
 
 model MailAgents {
-  id       String @id @default(uuid())
-  address  String @unique @db.VarChar(128)
-  password String @db.VarChar(128)
-  protocol String @db.VarChar(8)
+  id      String @id @default(uuid())
+  address String @unique @db.VarChar(128)
 
   createdAt DateTime @default(now())
 
   // Associations
+  MailService   MailServices @relation(fields: [mailServiceId], references: [id])
+  mailServiceId String
+
   Emails Emails[]
 }
 
@@ -46,7 +47,8 @@ model Emails {
 }
 
 model SentEmailReceivers {
-  id String @id @default(uuid())
+  id   String  @id @default(uuid())
+  mode String? @db.VarChar(3)
 
   // Associations
   Address   Addresses @relation(fields: [addressId], references: [id])
@@ -54,4 +56,14 @@ model SentEmailReceivers {
 
   Email   Emails @relation(fields: [emailId], references: [id])
   emailId String
+}
+
+model MailServices {
+  id String @id @default(uuid())
+
+  name   String @db.VarChar(32)
+  apiKey String @db.VarChar(128)
+
+  createdAt  DateTime     @default(now())
+  MailAgents MailAgents[]
 }
