@@ -1,5 +1,8 @@
 import { DynamicModule, Logger, Module } from '@nestjs/common';
-import { MAIL_AGENTS_PROVIDER } from './mail-agents.provider';
+import {
+  MAIL_AGENTS_PROVIDER,
+  MailAgentsProviderType,
+} from './mail-agents.provider';
 import { PrismaService } from '../../database/prisma.service';
 import { MailAgentRepository } from '../../database/repository/mail-agent.repository';
 import { reduce } from 'lodash';
@@ -21,7 +24,7 @@ export class MailAgentsModule {
             return result;
           },
           {},
-        ),
+        ) satisfies MailAgentsProviderType,
       },
     ];
 
