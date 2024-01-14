@@ -61,7 +61,8 @@ model SentEmailReceivers {
 model MailServices {
   id String @id @default(uuid())
 
-  name   String @db.VarChar(32)
+  name   String @unique @db.VarChar(32)
+  type   String @db.VarChar(16)
   apiKey String @db.VarChar(128)
 
   createdAt  DateTime     @default(now())

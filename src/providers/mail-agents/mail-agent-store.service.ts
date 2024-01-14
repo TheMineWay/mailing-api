@@ -1,5 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { MailAgents, MailServices } from '@prisma/client';
+import { MailAgent } from '../../services/mail-agents/mail-agent';
 
 export class MailAgentStoreService {
   constructor(
@@ -14,6 +15,8 @@ export class MailAgentStoreService {
   getByEmail = (email: string) => {
     if (!Object.keys(this.mailAgentValues).includes(email))
       throw new NotFoundException('Email agent not present/available');
-    return this.mailAgentValues[email];
+
+    const item = this.mailAgentValues[email];
+    return new MailAgent(item, item.MailService);
   };
 }
