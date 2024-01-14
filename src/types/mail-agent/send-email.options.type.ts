@@ -1,4 +1,4 @@
-export type SendEmailOptions = {
+export interface SendEmailOptions {
   to: string[];
   cc?: string[];
   bcc?: string[];
@@ -6,4 +6,4 @@ export type SendEmailOptions = {
 
   body: string;
   subject: string;
-};
+}

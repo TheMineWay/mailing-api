@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ENV } from './constants/env/env.constant';
 import helmet from 'helmet';
 import fs from 'fs';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(
@@ -17,8 +18,14 @@ async function bootstrap() {
       : {},
   );
 
+  // Use CORS
   app.enableCors();
+
+  // Enable security headers
   app.use(helmet());
+
+  // Use DTO validation
+  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
 
   await app.listen(ENV.port);
 }
