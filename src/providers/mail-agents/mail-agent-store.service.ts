@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { MailAgents, MailServices } from '@prisma/client';
 
-export class MailAgentService {
+export class MailAgentStoreService {
   constructor(
     private readonly mailAgentValues: Record<
       string,

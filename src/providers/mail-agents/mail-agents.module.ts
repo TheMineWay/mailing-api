@@ -4,7 +4,7 @@ import { PrismaService } from '../../database/prisma.service';
 import { MailAgentRepository } from '../../database/repository/mail-agent.repository';
 import { reduce } from 'lodash';
 import { MailAgents, MailServices } from '@prisma/client';
-import { MailAgentService } from './mail-agent.service';
+import { MailAgentStoreService } from './mail-agent-store.service';
 
 @Global()
 @Module({})
@@ -17,7 +17,7 @@ export class MailAgentsModule {
     const providers = [
       {
         provide: MAIL_AGENT_SERVICE_PROVIDER,
-        useValue: new MailAgentService(
+        useValue: new MailAgentStoreService(
           reduce(
             agents,
             (result, value) => {
