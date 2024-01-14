@@ -1,12 +1,12 @@
-import { DynamicModule, Logger, Module } from '@nestjs/common';
-import {
-  MAIL_AGENTS_PROVIDER,
-  MailAgentsProviderType,
-} from './mail-agents.provider';
+import { DynamicModule, Global, Logger, Module } from '@nestjs/common';
+import { MAIL_AGENT_SERVICE_PROVIDER } from './mail-agents.provider';
 import { PrismaService } from '../../database/prisma.service';
 import { MailAgentRepository } from '../../database/repository/mail-agent.repository';
 import { reduce } from 'lodash';
+import { MailAgents, MailServices } from '@prisma/client';
+import { MailAgentService } from './mail-agent.service';
 
+@Global()
 @Module({})
 export class MailAgentsModule {
   static async forRoot(): Promise<DynamicModule> {
@@ -16,15 +16,22 @@ export class MailAgentsModule {
 
     const providers = [
       {
-        provide: MAIL_AGENTS_PROVIDER,
-        useValue: reduce(
-          agents,
-          (result, value) => {
-            result[value.address] = result[value.address] || value;
-            return result;
-          },
-          {},
-        ) satisfies MailAgentsProviderType,
+        provide: MAIL_AGENT_SERVICE_PROVIDER,
+        useValue: new MailAgentService(
+          reduce(
+            agents,
+            (result, value) => {
+              result[value.address] = result[value.address] || value;
+              return result;
+            },
+            {},
+          ) satisfies Record<
+            string,
+            {
+              MailService: MailServices;
+            } & MailAgents
+          >,
+        ),
       },
     ];
 

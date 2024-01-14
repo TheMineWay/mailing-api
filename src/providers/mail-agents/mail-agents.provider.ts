@@ -1,10 +1,1 @@
-import { MailAgents, MailServices } from '@prisma/client';
-
-export const MAIL_AGENTS_PROVIDER = 'MAIL_AGENTS_PROVIDER';
-
-export type MailAgentsProviderType = Record<
-  string,
-  ({
-    MailService: MailServices;
-  } & MailAgents)[]
->;
+export const MAIL_AGENT_SERVICE_PROVIDER = 'MAIL_AGENT_SERVICE_PROVIDER';

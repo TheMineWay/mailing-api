@@ -3,6 +3,7 @@ import { ApiKeyGuard, ApiKeysModule } from 'nestjs-api-keys';
 import { ENV } from './constants/env/env.constant';
 import { APP_GUARD } from '@nestjs/core';
 import { MailAgentsModule } from './providers/mail-agents/mail-agents.module';
+import { ApiModule } from './api/api.module';
 
 const API_KEY_PERMISSION = 'api.use';
 
@@ -18,6 +19,7 @@ const API_KEY_PERMISSION = 'api.use';
         },
       ],
     }),
+    ApiModule,
   ],
   providers: [
     {
