@@ -5,9 +5,9 @@ import {
   IsEmail,
   IsString,
   MaxLength,
+  IsOptional,
 } from 'class-validator';
 import { SendEmailOptions } from '../../types/mail-agent/send-email.options.type';
-import { Optional } from '@nestjs/common';
 
 export class SendEmailOptionsDTO implements SendEmailOptions {
   @IsArray()
@@ -18,7 +18,7 @@ export class SendEmailOptionsDTO implements SendEmailOptions {
   @MaxLength(128, { each: true })
   to: string[];
 
-  @Optional()
+  @IsOptional()
   @IsArray()
   @ArrayMaxSize(512)
   @ArrayMinSize(1)
@@ -27,7 +27,7 @@ export class SendEmailOptionsDTO implements SendEmailOptions {
   @MaxLength(128, { each: true })
   cc?: string[];
 
-  @Optional()
+  @IsOptional()
   @IsArray()
   @ArrayMaxSize(512)
   @ArrayMinSize(1)
