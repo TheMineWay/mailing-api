@@ -11,6 +11,8 @@ export class MailerService {
   ) {}
 
   async sendEmail(options: SendEmailOptions) {
-    return this.mailAgentService.getByEmail(options.from);
+    return await this.mailAgentService
+      .getByEmail(options.from)
+      .sendEmail(options);
   }
 }

@@ -21,6 +21,6 @@ export class MailAgent {
   }
 
   async sendEmail(options: Omit<SendEmailOptions, 'from'>) {
-    this.mailAgent.send({ ...options, from: this.mailAgentData.address });
+    await this.mailAgent.send({ ...options, from: this.mailAgentData.address });
   }
 }

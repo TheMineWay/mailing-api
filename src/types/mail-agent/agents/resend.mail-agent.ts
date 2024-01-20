@@ -2,6 +2,7 @@ import { Resend } from 'resend';
 import { IMailAgent } from '../mail-agent.interface';
 import { SendEmailOptions } from '../send-email.options.type';
 import { MailServices } from '@prisma/client';
+import { InternalServerErrorException, Logger } from '@nestjs/common';
 
 export class ResendMailAgent implements IMailAgent {
   readonly resendService: Resend;
@@ -10,7 +11,7 @@ export class ResendMailAgent implements IMailAgent {
   }
 
   send = async (options: SendEmailOptions) => {
-    await this.resendService.emails.send({
+    const res = await this.resendService.emails.send({
       from: options.from,
       to: options.to,
       cc: options.cc,
@@ -18,5 +19,10 @@ export class ResendMailAgent implements IMailAgent {
       subject: options.subject,
       html: options.body,
     });
+
+    if (res.error) {
+      Logger.error(res.error);
+      throw new InternalServerErrorException();
+    }
   };
 }
